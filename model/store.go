@@ -16,8 +16,6 @@ type DB struct {
 	store *badgerhold.Store
 }
 
-func (db *DB) Close() error { return db.store.Close() }
-
 func New(dbPath string) (*DB, error) {
 	store, err := badgerhold.Open(
 		badgerhold.Options{
@@ -68,5 +66,6 @@ func New(dbPath string) (*DB, error) {
 
 }
 
+func (db *DB) Close() error             { return db.store.Close() }
 func (db *DB) CreateUser(u *User) error { return db.store.Insert(u.PubKey, u) }
 func (db *DB) SaveUser(u *User) error   { return db.store.Update(u.PubKey, u) }
