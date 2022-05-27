@@ -5,10 +5,11 @@ import (
 )
 
 type User struct {
-	Name      string
-	PubKey    ed25519.PubKey `badgerhold:"index"` // this is just a wrapper around bytes
-	Moderator bool
-	Banned    bool
+	Name        string
+	PubKey      ed25519.PubKey `badgerhold:"index"` // this is just a wrapper around bytes
+	Moderator   bool
+	Banned      bool
+	NumMessages int64
 	// schema versioning
 	Version int
 }

@@ -1,6 +1,10 @@
 package model
 
-import "github.com/tendermint/tendermint/crypto/ed25519"
+import (
+	"fmt"
+
+	"github.com/tendermint/tendermint/crypto/ed25519"
+)
 
 type MsgSendMessage struct {
 	Text string
@@ -19,4 +23,40 @@ type MsgSetModerator struct {
 
 type MsgCreateUser struct {
 	User User
+}
+
+func (db *DB) FindUser(key ed25519.PubKey) (*User, error) { return nil, nil }
+func (db *DB) Process(message interface{}) error {
+	switch msg := message.(type) {
+	case MsgSendMessage:
+		u, err := db.FindUser(msg.From)
+		if err != nil {
+			return err
+		}
+		// TODO: implement business logic
+
+		u.NumMessages++
+		return db.SaveUser(u)
+	case MsgSetBan:
+		u, err := db.FindUser(msg.User)
+		if err != nil {
+			return err
+		}
+
+		u.Banned = msg.State
+
+		return db.SaveUser(u)
+	case MsgSetModerator:
+		u, err := db.FindUser(msg.User)
+		if err != nil {
+			return err
+		}
+		u.Moderator = msg.State
+
+		return db.SaveUser(u)
+	case MsgCreateUser:
+		return db.CreateUser(&msg.User)
+	default:
+		return fmt.Errorf("message type %T not supported", message)
+	}
 }
