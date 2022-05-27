@@ -34,6 +34,7 @@ func (db *DB) Process(message interface{}) error {
 		}
 		// TODO: implement business logic
 
+		u.Version++
 		u.NumMessages++
 		return db.SaveUser(u)
 	case MsgSetBan:
@@ -42,6 +43,7 @@ func (db *DB) Process(message interface{}) error {
 			return err
 		}
 
+		u.Version++
 		u.Banned = msg.State
 
 		return db.SaveUser(u)
@@ -50,10 +52,12 @@ func (db *DB) Process(message interface{}) error {
 		if err != nil {
 			return err
 		}
+		u.Version++
 		u.Moderator = msg.State
 
 		return db.SaveUser(u)
 	case MsgCreateUser:
+		msg.User.Version = 0
 		return db.CreateUser(&msg.User)
 	default:
 		return fmt.Errorf("message type %T not supported", message)
