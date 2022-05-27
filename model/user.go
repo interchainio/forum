@@ -6,7 +6,7 @@ import (
 
 type User struct {
 	Name      string
-	PubKey    ed25519.PubKey // this is just a wrapper around bytes
+	PubKey    ed25519.PubKey `badgerhold:"index"` // this is just a wrapper around bytes
 	Moderator bool
 	Banned    bool
 	// schema versioning

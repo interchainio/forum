@@ -3,12 +3,15 @@ package abci
 import (
 	"context"
 
+	"github.com/interchainio/forum/model"
 	abci "github.com/tendermint/tendermint/abci/types"
 )
 
 var _ abci.Application = App{}
 
-type App struct{}
+type App struct {
+	DB *model.DB
+}
 
 // Info/Query Connection
 // Return application info
