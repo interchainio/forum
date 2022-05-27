@@ -7,6 +7,7 @@ import (
 	"sync"
 
 	"github.com/dgraph-io/badger"
+	"github.com/tendermint/tendermint/crypto/ed25519"
 	"github.com/timshannon/badgerhold"
 )
 
@@ -66,6 +67,7 @@ func New(dbPath string) (*DB, error) {
 
 }
 
-func (db *DB) Close() error             { return db.store.Close() }
-func (db *DB) CreateUser(u *User) error { return db.store.Insert(u.PubKey, u) }
-func (db *DB) SaveUser(u *User) error   { return db.store.Update(u.PubKey, u) }
+func (db *DB) Close() error                               { return db.store.Close() }
+func (db *DB) CreateUser(u *User) error                   { return db.store.Insert(u.PubKey, u) }
+func (db *DB) SaveUser(u *User) error                     { return db.store.Update(u.PubKey, u) }
+func (db *DB) FindUser(key ed25519.PubKey) (*User, error) { return nil, nil }

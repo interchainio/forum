@@ -25,7 +25,6 @@ type MsgCreateUser struct {
 	User User
 }
 
-func (db *DB) FindUser(key ed25519.PubKey) (*User, error) { return nil, nil }
 func (db *DB) Process(message interface{}) error {
 	switch msg := message.(type) {
 	case MsgSendMessage:
