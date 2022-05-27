@@ -16,3 +16,7 @@ type MsgSetModerator struct {
 	User  ed25519.PubKey
 	State bool
 }
+
+type MsgCreateUser struct {
+	User User
+}
